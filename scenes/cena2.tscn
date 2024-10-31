@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://7hqfs7x0ijpk"]
+
+[ext_resource type="PackedScene" uid="uid://0vgngvpyj3ea" path="res://scenes/cena1.tscn" id="1_akw01"]
+[ext_resource type="Script" path="res://scenes/canvas_layer.gd" id="2_g7vjo"]
+
+[node name="CanvasLayer" instance=ExtResource("1_akw01")]
+script = ExtResource("2_g7vjo")

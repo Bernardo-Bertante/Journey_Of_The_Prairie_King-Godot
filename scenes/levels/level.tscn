@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwcuwawdqk4xf"]
+
+[ext_resource type="PackedScene" uid="uid://bhxk4ql6pga1w" path="res://scenes/player.tscn" id="1_hlewe"]
+[ext_resource type="Script" path="res://scenes/levels/level.gd" id="1_icgh4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3ffko"]
+font_size = 40
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_icgh4")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Timer" type="Timer" parent="Timers"]
+wait_time = 3.0
+autostart = true
+
+[node name="FinishLevel" type="Timer" parent="Timers"]
+wait_time = 60.0
+autostart = true
+
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("1_hlewe")]
+position = Vector2(322, 312)
+
+[node name="Enemies" type="Node2D" parent="." groups=["Enemies"]]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 88.0
+offset_bottom = 46.0
+label_settings = SubResource("LabelSettings_3ffko")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[connection signal="timeout" from="Timers/Timer" to="." method="_on_timer_timeout"]
+[connection signal="bullet" from="Player" to="." method="_on_player_bullet"]
+[connection signal="death" from="Player" to="." method="_on_player_death"]
+[connection signal="powerUp" from="Player" to="." method="_on_player_power_up"]

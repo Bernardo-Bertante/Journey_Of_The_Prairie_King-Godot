@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://cwg4yk4yav3ay"]
+
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_g24jt"]
+[ext_resource type="Texture2D" uid="uid://dct2exjnutpi5" path="res://assets/images/zombie.png" id="1_pmhoy"]
+[ext_resource type="Texture2D" uid="uid://b80s81ousqcgd" path="res://assets/images/explosion.png" id="3_npelg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aiwmh"]
+atlas = ExtResource("1_pmhoy")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdtj8"]
+atlas = ExtResource("1_pmhoy")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gawf8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aiwmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdtj8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_57vmt"]
+size = Vector2(38, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icvcu"]
+size = Vector2(38, 38)
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Enemies"]]
+collision_layer = 2
+collision_mask = 15
+script = ExtResource("1_g24jt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_gawf8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_57vmt")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." groups=["Enemies"]]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["Enemies"]]
+shape = SubResource("RectangleShape2D_icvcu")
+
+[node name="ShaderTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="explosion" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.168627)
+scale = Vector2(2, 2)
+texture = ExtResource("3_npelg")
+hframes = 5
+frame = 2
+region_rect = Rect2(0, 0, 64, 16)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="ShaderTimer" to="." method="_on_shader_timer_timeout"]

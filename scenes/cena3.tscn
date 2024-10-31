@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwvjalugj11sl"]
+
+[ext_resource type="PackedScene" uid="uid://0vgngvpyj3ea" path="res://scenes/cena1.tscn" id="1_r22e3"]
+[ext_resource type="Script" path="res://scenes/cena_3.gd" id="2_w6csm"]
+
+[node name="CanvasLayer" instance=ExtResource("1_r22e3")]
+script = ExtResource("2_w6csm")
+
+[node name="Label" parent="." index="1"]
+text = "\"A imagem sombria do Drácula surge à frente, o cowboy sente o peso da última batalha. 
+Ele sabe que o confronto será decisivo. 
+O coração de sua amada está nas mãos do senhor das trevas,
+e somente com coragem e astúcia ele pode libertá-la... e as almas perdidas.\""

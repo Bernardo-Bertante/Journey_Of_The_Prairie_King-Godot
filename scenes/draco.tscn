@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwg0f31iw1gae"]
+
+[ext_resource type="Texture2D" uid="uid://bp2k54qx72m7l" path="res://assets/images/boss.png" id="1_6ip5n"]
+[ext_resource type="Script" path="res://scenes/draco.gd" id="1_7hl4x"]
+[ext_resource type="Texture2D" uid="uid://sk2gqx76fcm4" path="res://assets/images/bossDialogue.png" id="2_b550b"]
+[ext_resource type="Shader" path="res://scenes/draco.gdshader" id="3_qjcea"]
+[ext_resource type="Texture2D" uid="uid://b80s81ousqcgd" path="res://assets/images/explosion.png" id="5_6cegg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mbb65"]
+shader = ExtResource("3_qjcea")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/progress = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nogj"]
+atlas = ExtResource("1_6ip5n")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c7v3"]
+atlas = ExtResource("1_6ip5n")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d3dkw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2nogj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7c7v3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iqjwg"]
+size = Vector2(38, 38)
+
+[node name="Node2D" type="CharacterBody2D" groups=["Enemies"]]
+collision_layer = 2
+collision_mask = 12
+script = ExtResource("1_7hl4x")
+
+[node name="dialoguebox" type="Sprite2D" parent="."]
+texture = ExtResource("2_b550b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_mbb65")
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_d3dkw")
+
+[node name="TimerShader" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_iqjwg")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 6.0
+
+[node name="puff" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("5_6cegg")
+region_enabled = true
+region_rect = Rect2(28.7064, 0.575985, 14.9283, 15.1081)
+
+[node name="Timer3" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="Shoot" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="timeout" from="AnimatedSprite2D/TimerShader" to="." method="_on_timer_shader_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
+[connection signal="timeout" from="Timer3" to="." method="_on_timer_3_timeout"]
+[connection signal="timeout" from="Shoot" to="." method="_on_shoot_timeout"]
